@@ -46,10 +46,20 @@
     </sui-container>
     <sui-divider horizontal> Нові пропозиції </sui-divider>
     <sui-container>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus maiores
-      dignissimos, voluptatem tempore obcaecati alias officia quia distinctio
-      voluptas fugiat corporis libero ducimus ex porro itaque eligendi magni
-      velit corrupti.
+      <sui-grid container>
+        <sui-grid-column
+          v-for="num in [0, 1, 2, 3, 4, 5]"
+          :key="num"
+          :width="5"
+          centered
+        >
+          <estate-card
+            :header="'Some header text'"
+            :price="'12000'"
+            :imageSrc="'img/interior-1.jpg'"
+          ></estate-card>
+        </sui-grid-column>
+      </sui-grid>
     </sui-container>
     <sui-divider horizontal> Про нас </sui-divider>
     <sui-container>
@@ -97,7 +107,9 @@
 </template>
 
 <script>
+import EstateCard from "../components/EstateCard.vue";
 export default {
+  components: { EstateCard },
   data() {
     return {
       cardOneActive: false,
