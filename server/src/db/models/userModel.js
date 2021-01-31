@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema({
         trim: true,
         minLength: 6,
         validate(value) {
-            if (value.contains("password") && value.length < 12) {
+            if (value.includes("password")) {
                 throw new Error("Please, choose another password");
             }
         },

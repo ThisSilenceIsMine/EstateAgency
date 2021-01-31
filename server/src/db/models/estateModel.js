@@ -13,7 +13,12 @@ const estateSchema = mongoose.Schema({
     //Храним в базе стоимость * 100, тем самым не используя дробные числа
     price: {
         type: Number,
-        rquired: true,
+        required: true,
+    },
+    estateType: {
+        type: String,
+        required: true,
+        trim: true,
     },
     images: [
         {
