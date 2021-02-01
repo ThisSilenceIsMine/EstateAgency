@@ -42,6 +42,11 @@ const userSchema = mongoose.Schema({
             }
         },
     },
+    rights: {
+        type: String,
+        enum: ["Admin", "User"],
+        default: "User",
+    },
     tokens: [
         {
             token: {
@@ -68,7 +73,7 @@ userSchema.methods.toJSON = function () {
 };
 
 userSchema.methods.generateAuthToken = async function () {
-    const token = jwt.sign({ _id: this._id.toString() }, "catgirlsaresuperior");
+    const token = jwt.sign({ _id: this._id.toString() }, "lampoilropebombs");
 
     this.tokens.push({ token });
     await this.save();
@@ -101,7 +106,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.pre("deleteOne", async function (next) {
-    //!!!use getQuery() to get document's id!!!!
+    // !!!use getQuery() to get document's id!!!!
     await Estate.deleteMany({ owner: this.getQuery()._id });
 });
 

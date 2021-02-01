@@ -15,24 +15,37 @@ const estateSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    estateType: {
+    placement: {
         type: String,
         required: true,
         trim: true,
     },
+    estateType: {
+        type: String,
+        enum: ["Apartment", "House", "Plot", "Commercial"],
+        required: true,
+    },
     images: [
         {
             image: {
-                type: Buffer,
-                required: true,
+                type: String,
             },
         },
     ],
+    //Для доступа к автору через estate.populate('owner').execPopulate()
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "User", //Used to fetch user document via task.populate('owner').execPopulate()
+        ref: "User",
     },
+});
+
+estateSchema.path("price").get(function (num) {
+    return (num / 100).toFixed(2);
+});
+
+estateSchema.path("price").set(function (num) {
+    return num * 100;
 });
 
 const Estate = mongoose.model("Estate", estateSchema);
