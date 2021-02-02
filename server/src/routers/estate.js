@@ -28,29 +28,101 @@ const upload = multer({
 
 const router = express.Router();
 
-router.post(
-    "/estates",
-    auth,
-    upload.array("photos"),
-    async (req, res) => {
-        const estate = new Estate({
-            ...req.body,
-            owner: req.user._id,
-        });
-        try {
-            req.files.forEach((file) => {
-                estate.images.push({ image: file.path });
-                console.log("path = ", file.path);
+router
+    .route("/estates")
+    .post(
+        auth,
+        upload.array("photos"),
+        async (req, res) => {
+            const estate = new Estate({
+                ...req.body,
+                owner: req.user._id,
             });
-            await estate.save();
+            try {
+                req.files.forEach((file) => {
+                    estate.images.push({ image: file.path });
+                    console.log("path = ", file.path);
+                });
+                await estate.save();
+                res.send(estate);
+            } catch (error) {
+                res.status(500).send(error);
+            }
+        },
+        (error, req, res, next) => {
+            res.status(400).send({ error: error.message });
+        }
+    )
+    .get(auth, async (req, res) => {
+        try {
+            // const tasks = await Task.find({ owner: req.user._id });
+            await req.user.populate("estates").execPopulate();
+            res.send(req.user.estates);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    });
+
+router
+    .route("/estates/:id")
+    .get(auth, async (req, res) => {
+        try {
+            // const tasks = await Task.find({ owner: req.user._id });
+            const estate = await Estate.findOne({
+                _id: req.params.id,
+                owner: req.user._id,
+            });
+
+            if (!estate) {
+                res.status(404).send();
+            }
+
             res.send(estate);
         } catch (error) {
             res.status(500).send(error);
         }
-    },
-    (error, req, res, next) => {
-        res.status(400).send({ error: error.message });
-    }
-);
+    })
+    .patch(auth, async (req, res) => {
+        const allowedUpates = [
+            "title",
+            "description",
+            "price",
+            "placement",
+            "estateType",
+        ];
+        const updates = Object.keys(req.body);
+        const isValid = updates.every((update) =>
+            allowedUpates.includes(update)
+        );
+
+        if (!isValid) {
+            return res.status(400).send({ error: "Invalid updates" });
+        }
+
+        try {
+            const estate = await Estate.findOne({
+                _id: req.params.id,
+                owner: req.user._id,
+            });
+            updates.forEach((update) => (estate[update] = req.body[update]));
+            await estate.save();
+
+            res.send(estate);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    })
+    .delete(auth, async (req, res) => {
+        try {
+            const estate = await Estate.findOneAndDelete({
+                _id: req.params.id,
+                owner: req.user._id,
+            });
+
+            res.send(estate);
+        } catch (error) {
+            res.status(500).send();
+        }
+    });
 
 module.exports = router;

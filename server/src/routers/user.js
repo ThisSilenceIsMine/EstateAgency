@@ -55,36 +55,38 @@ router.post("/users/logoutall", auth, async (req, res) => {
     }
 });
 
-router.get("/users/me", auth, async (req, res) => {
-    res.send(req.user);
-});
-
-router.patch("/users/me", auth, async (req, res) => {
-    const allowedUpates = ["name", "email", "phoneNumber"];
-    const updates = Object.keys(req.body);
-    const isValid = updates.every((update) => allowedUpates.includes(update));
-
-    if (!isValid) {
-        return res.status(400).send({ error: "Invalid updates" });
-    }
-
-    try {
-        updates.forEach((update) => (req.user[update] = req.body[update]));
-        await req.user.save();
-
+router
+    .route("/users/me")
+    .get(auth, async (req, res) => {
         res.send(req.user);
-    } catch (error) {
-        res.status(500).send(error);
-    }
-});
+    })
+    .patch(auth, async (req, res) => {
+        const allowedUpates = ["name", "email", "phoneNumber"];
+        const updates = Object.keys(req.body);
+        const isValid = updates.every((update) =>
+            allowedUpates.includes(update)
+        );
 
-router.delete("/users/me", auth, async (req, res) => {
-    try {
-        await User.deleteOne({ _id: req.user._id });
-        res.send(req.user);
-    } catch (error) {
-        res.status(500).send();
-    }
-});
+        if (!isValid) {
+            return res.status(400).send({ error: "Invalid updates" });
+        }
+
+        try {
+            updates.forEach((update) => (req.user[update] = req.body[update]));
+            await req.user.save();
+
+            res.send(req.user);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    })
+    .delete(auth, async (req, res) => {
+        try {
+            await User.deleteOne({ _id: req.user._id });
+            res.send(req.user);
+        } catch (error) {
+            res.status(500).send();
+        }
+    });
 
 module.exports = router;
