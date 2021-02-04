@@ -4,8 +4,9 @@ const User = require("../db/models/userModel");
 const auth = require("../middleware/auth");
 
 const router = express.Router();
+const baseRoute = "/api/users";
 
-router.post("/users", async (req, res) => {
+router.post(`${baseRoute}`, async (req, res) => {
     const user = new User(req.body);
 
     try {
@@ -17,7 +18,7 @@ router.post("/users", async (req, res) => {
     }
 });
 
-router.get("/users/login", async (req, res) => {
+router.get(`${baseRoute}/login`, async (req, res) => {
     try {
         const user = await User.findByCredentials(
             req.body.email,
@@ -30,7 +31,7 @@ router.get("/users/login", async (req, res) => {
     }
 });
 
-router.post("/users/logout", auth, async (req, res) => {
+router.post(`${baseRoute}/logout`, auth, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(
             (token) => token.token !== req.token
@@ -43,7 +44,7 @@ router.post("/users/logout", auth, async (req, res) => {
     }
 });
 
-router.post("/users/logoutall", auth, async (req, res) => {
+router.post(`${baseRoute}/logoutall`, auth, async (req, res) => {
     try {
         req.user.tokens = [];
 
@@ -56,7 +57,7 @@ router.post("/users/logoutall", auth, async (req, res) => {
 });
 
 router
-    .route("/users/me")
+    .route(`${baseRoute}/me`)
     .get(auth, async (req, res) => {
         res.send(req.user);
     })

@@ -1,87 +1,53 @@
 <template>
-  <v-form>
+  <div>
+    <search-form />
     <v-row>
-      <v-col>
-        <v-text-field
-          label="Назва"
-          prepend-inner-icon="mdi-format-title"
-          clearable
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-combobox
-          v-model="select"
-          :items="items"
-          item-text="place"
-          item-value="place"
-          label="Район"
-          prepend-inner-icon="mdi-map-marker"
-          return-object
-          single-line
-          clearable
-        ></v-combobox>
-      </v-col>
-      <v-col>
-        <v-radio-group row>
-          <v-radio label="Покупка" value="Buy" />
-          <v-radio label="Оренда" value="Rent" />
-        </v-radio-group>
+      <!-- <v-col
+        cols="12"
+        sm="3"
+        md="4"
+        v-for="(number, index) in sets"
+        :key="index"
+      >
+        <estate-card
+          :title="'example title'"
+          source="img/interior-1.jpg"
+          :price="12000"
+        />
+      </v-col> -->
+      <v-col cols="12" sm="3" md="4" v-for="ad in estates" :key="ad._id">
+        <estate-card
+          :title="ad.title"
+          source="img/interior-1.jpg"
+          :price="ad.price"
+        />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-text-field
-          label="Мінімальна ціна"
-          prefix="$"
-          :rules="[rules.currency]"
-          clearable
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field
-          label="Максимальна ціна"
-          prefix="$"
-          :rules="[rules.currency]"
-          clearable
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-select
-          label="Тип нерухомості"
-          return-object
-          single-line
-          clearable
-        ></v-select>
-      </v-col>
-    </v-row>
-  </v-form>
+  </div>
 </template>
 
 <script>
-import validator from "validator";
+import EstateCard from "../components/estateCard.vue";
+import searchForm from "../components/searchForm.vue";
 
 export default {
+  components: {
+    searchForm,
+    EstateCard
+  },
   data() {
     return {
-      select: { place: "" },
-      items: [
-        { place: "Шкірзавод" },
-        { place: "М’ясокомінат" },
-        { place: "Прогрес" },
-        { place: "Залізничний вокзал" },
-        { place: "Солодовий завод" },
-        { place: "Дитячий світ" },
-        { place: "Новосілки" },
-        { place: "Загребелля" },
-        { place: "Центр" }
-      ],
-      rules: {
-        currency: value =>
-          (value ? validator.isCurrency(value + "") : true) ||
-          "Введіть в правильному форматі",
-        required: value => !!value || "Required."
-      }
+      sets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     };
+  },
+  async asyncData({ $axios }) {
+    try {
+      const estates = (await $axios.get("/estates")).data;
+      console.log("estates :>> ", estates);
+      return { estates };
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   }
 };
 </script>

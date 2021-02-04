@@ -29,7 +29,7 @@ const upload = multer({
 const router = express.Router();
 
 router
-    .route("/estates")
+    .route("/api/estates")
     .post(
         auth,
         upload.array("photos"),
@@ -53,18 +53,27 @@ router
             res.status(400).send({ error: error.message });
         }
     )
-    .get(auth, async (req, res) => {
+    .get(async (req, res) => {
         try {
-            // const tasks = await Task.find({ owner: req.user._id });
-            await req.user.populate("estates").execPopulate();
-            res.send(req.user.estates);
+            const estates = await Estate.find({});
+            res.send(estates);
         } catch (error) {
             res.status(500).send(error);
         }
     });
 
+router.get("/api/estates/my", auth, async (req, res) => {
+    try {
+        // const tasks = await Task.find({ owner: req.user._id });
+        await req.user.populate("estates").execPopulate();
+        res.send(req.user.estates);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 router
-    .route("/estates/:id")
+    .route("/api/estates/:id")
     .get(auth, async (req, res) => {
         try {
             // const tasks = await Task.find({ owner: req.user._id });
