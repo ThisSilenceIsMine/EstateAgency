@@ -23,6 +23,7 @@
           :place="ad.placement"
           :action="ad.action"
           :type="ad.estateType"
+          :id="ad._id"
         />
       </v-col>
     </v-row>

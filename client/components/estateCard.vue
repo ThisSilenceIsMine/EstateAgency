@@ -1,7 +1,13 @@
 <template>
   <div>
     <v-hover v-model="hover">
-      <v-card elevation="2" max-width="374" class="card-style">
+      <v-card
+        elevation="2"
+        max-width="374"
+        class="card-style"
+        nuxt
+        :to="`/estate/${id}`"
+      >
         <v-img height="250" :src="source"> </v-img>
         <v-card-title> {{ title }} </v-card-title>
 

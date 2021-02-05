@@ -74,12 +74,11 @@ router.get("/api/estates/my", auth, async (req, res) => {
 
 router
     .route("/api/estates/:id")
-    .get(auth, async (req, res) => {
+    .get(async (req, res) => {
         try {
             // const tasks = await Task.find({ owner: req.user._id });
             const estate = await Estate.findOne({
                 _id: req.params.id,
-                owner: req.user._id,
             });
 
             if (!estate) {
