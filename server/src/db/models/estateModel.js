@@ -20,6 +20,11 @@ const estateSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
+    action: {
+        type: String,
+        enum: ["Buy", "Rent"],
+        required: true,
+    },
     estateType: {
         type: String,
         enum: ["Apartment", "House", "Plot", "Commercial"],

@@ -3,6 +3,7 @@
     <v-row>
       <v-col>
         <v-text-field
+          v-model="filters['title']"
           label="Назва"
           prepend-inner-icon="mdi-format-title"
           clearable
@@ -11,7 +12,7 @@
 
       <v-col>
         <v-combobox
-          v-model="select"
+          v-model="filters['place']"
           :items="items"
           item-text="place"
           item-value="place"
@@ -26,7 +27,7 @@
       </v-col>
 
       <v-col>
-        <v-radio-group row v-model="radioGroup">
+        <v-radio-group row v-model="filters['action']">
           <v-radio label="Покупка" value="Buy" />
           <v-radio label="Оренда" value="Rent" />
         </v-radio-group>
@@ -36,6 +37,7 @@
     <v-row>
       <v-col>
         <v-text-field
+          v-model="filters['minPrice']"
           label="Мінімальна ціна"
           prefix="$"
           :rules="[rules.currency]"
@@ -44,6 +46,7 @@
       </v-col>
       <v-col>
         <v-text-field
+          v-model="filters['maxPrice']"
           label="Максимальна ціна"
           prefix="$"
           :rules="[rules.currency]"
@@ -51,12 +54,12 @@
         />
       </v-col>
       <v-col>
-        <v-select label="Тип нерухомості" return-object single-line clearable />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-btn :disabled="!isValid" color="success">Знайти</v-btn>
+        <v-select
+          v-model="filters['type']"
+          label="Тип нерухомості"
+          single-line
+          clearable
+        />
       </v-col>
     </v-row>
   </v-form>
@@ -68,9 +71,10 @@ import validator from "validator";
 export default {
   data() {
     return {
-      radioGroup: "Buy",
+      filters: {},
+      // radioGroup: "Buy",
       isValid: true,
-      select: [],
+      // select: [],
       items: [
         { place: "Шкірзавод" },
         { place: "М’ясокомінат" },
@@ -89,6 +93,15 @@ export default {
         required: value => !!value || "Required."
       }
     };
+  },
+  watch: {
+    filters: {
+      handler: function(newFilter, oldFilter) {
+        // console.log("filters :>> ", newFilter);
+        this.$emit("filterChanged", newFilter);
+      },
+      deep: true
+    }
   }
 };
 </script>
