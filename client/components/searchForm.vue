@@ -11,11 +11,11 @@
       </v-col>
 
       <v-col>
+        <!--           item-text="place"
+          item-value="place" -->
         <v-combobox
           v-model="filters['place']"
           :items="items"
-          item-text="place"
-          item-value="place"
           label="Район"
           prepend-inner-icon="mdi-map-marker"
           return-object
@@ -76,15 +76,24 @@ export default {
       isValid: true,
       // select: [],
       items: [
-        { place: "Шкірзавод" },
-        { place: "М’ясокомінат" },
-        { place: "Прогрес" },
-        { place: "Залізничний вокзал" },
-        { place: "Солодовий завод" },
-        { place: "Дитячий світ" },
-        { place: "Новосілки" },
-        { place: "Загребелля" },
-        { place: "Центр" }
+        // "Шкірзавод" },
+        // "М’ясокомінат" },
+        // "Прогрес" },
+        // "Залізничний вокзал" },
+        // "Солодовий завод" },
+        // "Дитячий світ" },
+        // "Новосілки" },
+        // "Загребелля" },
+        // "Центр" }
+        "Шкірзавод",
+        "М’ясокомінат",
+        "Прогрес",
+        "Залізничний вокзал",
+        "Солодовий завод",
+        "Дитячий світ",
+        "Новосілки",
+        "Загребелля",
+        "Центр"
       ],
       rules: {
         currency: value =>

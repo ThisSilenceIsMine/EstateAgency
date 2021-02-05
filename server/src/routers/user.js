@@ -17,7 +17,25 @@ router.post(`${baseRoute}`, async (req, res) => {
         res.status(400).send(error);
     }
 });
+// router.get(`${baseRoute}/:id/contacts`, async (req, res) => {
+//     try {
+//         const user = await User.findById(req.params.id);
+//         const contactData = (({ name, email, phoneNumber }) => ({
+//             name,
+//             email,
+//             phoneNumber,
+//         }))(user);
 
+//         if (!contactData) {
+//             return res.status(404).send();
+//         }
+
+//         res.send(contactData);
+//     } catch (error) {
+//         console.log("error :>> ", error);
+//         res.status(404).send();
+//     }
+// });
 router.get(`${baseRoute}/login`, async (req, res) => {
     try {
         const user = await User.findByCredentials(

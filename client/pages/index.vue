@@ -81,16 +81,18 @@ export default {
       const filteredEstates = _.filter(this.estates, function(estate) {
         let isViable = true;
 
-        if (fts.title !== undefined) {
+        if (fts.title !== undefined && fts.title !== null) {
           isViable &= estate.title.includes(fts.title); //ok
         }
-        if (fts.place !== undefined) {
+        if (fts.place !== undefined && fts.place.length !== 0) {
           isViable &= fts.place.includes(estate.placement); //???? FIX IT
+          console.log("estate.placement :>> ", estate.placement);
+          console.log("fts.place :>> ", fts.place);
         }
         if (fts.action !== undefined) {
           isViable &= estate.action === fts.action; //ok
         }
-        if (fts.minPrice !== undefined) {
+        if (fts.minPrice !== undefined && frs.minPrice !== null) {
           isViable &= parseFloat(fts.minPrice) <= parseFloat(estate.price);
         }
         if (fts.maxPrice !== undefined && fts.maxPrice !== null) {

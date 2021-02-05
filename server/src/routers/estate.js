@@ -71,7 +71,23 @@ router.get("/api/estates/my", auth, async (req, res) => {
         res.status(500).send(error);
     }
 });
+router.get("/api/estates/:id/contacts", async (req, res) => {
+    try {
+        const estate = await Estate.findById(req.params.id);
+        await estate.populate("owner").execPopulate();
 
+        const contactData = (({ name, email, phoneNumber }) => ({
+            name,
+            email,
+            phoneNumber,
+        }))(estate.owner);
+        // console.log("estate :>> ", estate);
+        res.send(contactData);
+    } catch (error) {
+        console.log("error :>> ", error);
+        res.status(404).send();
+    }
+});
 router
     .route("/api/estates/:id")
     .get(async (req, res) => {
