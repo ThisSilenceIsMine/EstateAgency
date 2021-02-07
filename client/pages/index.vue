@@ -1,8 +1,8 @@
 <template>
   <div>
-    <search-form @filterChanged="onFilterChanged" />
-
-    <v-divider>Пропозиції</v-divider>
+    <!-- <login-form></login-form> -->
+    <register-form></register-form>
+    <!-- <search-form @filterChanged="onFilterChanged" /> -->
 
     <v-row>
       <!-- <v-col cols="12" sm="3" md="4" v-for="title in randTitles" :key="title">
@@ -34,6 +34,8 @@
 import _ from "lodash";
 import EstateCard from "../components/estateCard.vue";
 import searchForm from "../components/searchForm.vue";
+import LoginForm from "../components/loginForm.vue";
+import RegisterForm from "../components/registerForm.vue";
 
 //!!! USED ONLY FOR GENERATING MOCK DATA, DELETE LATER
 const random = (min, max) => {
@@ -53,7 +55,9 @@ const random = (min, max) => {
 export default {
   components: {
     searchForm,
-    EstateCard
+    EstateCard,
+    LoginForm,
+    RegisterForm
   },
   data() {
     return {
