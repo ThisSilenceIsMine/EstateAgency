@@ -1,24 +1,34 @@
 <template>
-  <v-card>
-    <v-tabs centered>
-      <v-tabs-slider></v-tabs-slider>
-      <v-tab :key="'login'">Вхід</v-tab>
-      <v-tab :key="'register'">Реєстрація</v-tab>
-    </v-tabs>
+  <v-container>
+    <v-dialog v-model="dialog" max-width="600" @click:outside="closeDialog">
+      <v-card>
+        <v-tabs centered>
+          <v-tabs-slider></v-tabs-slider>
+          <v-tab href="#login">Вхід</v-tab>
+          <v-tab-item id="login" key="login">
+            <v-card flat>
+              <v-card-text>
+                <v-container>
+                  <login-form></login-form>
+                </v-container>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
 
-    <v-tabs-items>
-      <v-tab-item :key="'login'">
-        <v-card flat>
-          <login-form></login-form>
-        </v-card>
-      </v-tab-item>
-      <v-tab-item :key="'register'">
-        <v-card flat>
-          <register-form></register-form>
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-  </v-card>
+          <v-tab href="#register">Реєстрація</v-tab>
+          <v-tab-item id="register" key="register">
+            <v-card flat>
+              <v-card-text>
+                <v-container>
+                  <register-form></register-form>
+                </v-container>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
 <script>
 import LoginForm from "../components/loginForm.vue";
@@ -28,6 +38,21 @@ export default {
   components: {
     LoginForm,
     RegisterForm
+  },
+  data() {
+    return {
+      dialog: false
+    };
+  },
+  methods: {
+    showDialog() {
+      console.log("Dialog now showing");
+      this.dialog = true;
+    },
+    closeDialog() {
+      console.log("Hiding dialog");
+      this.dialog = false;
+    }
   }
 };
 </script>

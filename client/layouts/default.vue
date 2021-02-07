@@ -1,5 +1,6 @@
 <template>
   <v-app dark>
+    <authentication-modal ref="authenticationDialog"></authentication-modal>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -28,6 +29,16 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-img max-height="50" max-width="50" src="nobg_logo.png"></v-img>
       <v-toolbar-title v-text="title" />
+      <v-btn
+        absolute
+        right
+        outlined
+        v-if="!this.$store.isAuthorized"
+        @click="showDialog()"
+      >
+        <v-icon left>mdi-login</v-icon> Вхід
+      </v-btn>
+      <v-btn color="primary" v-else>Профіль</v-btn>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -42,12 +53,18 @@
 </template>
 
 <script>
+import authenticationModal from "../components/authenticationModal";
+
 export default {
+  components: {
+    authenticationModal
+  },
   data() {
     return {
       clipped: false,
       drawer: false,
       fixed: false,
+      dialog: false,
       items: [
         {
           icon: "mdi-apps",
@@ -65,6 +82,12 @@ export default {
       rightDrawer: false,
       title: "Comfort UA"
     };
+  },
+  methods: {
+    showDialog: function() {
+      console.log(this.$refs);
+      this.$refs.authenticationDialog.showDialog();
+    }
   }
 };
 </script>

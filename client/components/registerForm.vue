@@ -17,9 +17,8 @@
       @click:append="showPassword = !showPassword"
       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :type="showPassword ? 'text' : 'password'"
-      :rules="[rules.required]"
+      :rules="[rules.required, rules.minLength]"
       loading
-      minLength="8"
     >
       <template v-slot:progress>
         <v-progress-linear
@@ -30,6 +29,7 @@
         ></v-progress-linear>
       </template>
     </v-text-field>
+    <v-btn :disabled="!isValid" color="success"> Зареєструватись </v-btn>
   </v-form>
 </template>
 <script>
@@ -51,13 +51,15 @@ export default {
         phoneNumber: value =>
           (value ? validator.isMobilePhone(value + "") : true) ||
           "Некорректний номер телефону",
-        required: value => !!value || "Обов'язкове поле"
+        required: value => !!value || "Обов'язкове поле",
+        minLength: value =>
+          value.length >= 6 || "Пароль повинен містити не менше 6 символів"
       }
     };
   },
   computed: {
     progress() {
-      return Math.min(100, this.password.length * 9);
+      return Math.min(100, this.password.length * 6);
     },
     color() {
       return ["error", "warning", "success"][Math.floor(this.progress / 40)];

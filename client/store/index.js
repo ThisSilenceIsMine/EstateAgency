@@ -2,6 +2,12 @@ export const state = () => ({
   userToken: String
 });
 
+export const getters = {
+  isAuthorized: state => {
+    return state.userToken.length !== 0;
+  }
+};
+
 export const mutations = {
   setUserToken(state, key) {
     state.userToken = key;

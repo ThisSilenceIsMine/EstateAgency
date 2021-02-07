@@ -1,8 +1,6 @@
 <template>
   <div>
-    <!-- <login-form></login-form> -->
-    <register-form></register-form>
-    <!-- <search-form @filterChanged="onFilterChanged" /> -->
+    <search-form @filterChanged="onFilterChanged" />
 
     <v-row>
       <!-- <v-col cols="12" sm="3" md="4" v-for="title in randTitles" :key="title">
