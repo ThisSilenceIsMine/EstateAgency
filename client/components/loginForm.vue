@@ -14,7 +14,7 @@
       :type="showPassword ? 'text' : 'password'"
       :rules="[rules.required]"
     />
-    <v-btn :disabled="!isValid" color="success"> Вхід </v-btn>
+    <v-btn :disabled="!isValid" color="success" @click="login()"> Вхід </v-btn>
   </v-form>
 </template>
 
@@ -36,6 +36,14 @@ export default {
         required: value => !!value || "Required."
       }
     };
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("loginUser", {
+        email: this.email,
+        password: this.password
+      });
+    }
   }
 };
 </script>

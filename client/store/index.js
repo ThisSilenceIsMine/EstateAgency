@@ -1,5 +1,5 @@
 export const state = () => ({
-  userToken: String
+  userToken: ""
 });
 
 export const getters = {
@@ -15,27 +15,23 @@ export const mutations = {
 };
 
 export const actions = {
-  async loginUser(context, email, password) {
-    const user = (
-      await this.$axios.get("/users/login", {
-        email,
-        password
-      })
-    ).data;
+  async loginUser(context, userData) {
+    try {
+      const user = (await this.$axios.post("/users/login", userData)).data;
 
-    context.commit("setUserToken", user.token);
+      context.commit("setUserToken", user.token);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   },
 
-  async registerUser(context, name, email, password, phoneNumber) {
-    const user = (
-      await this.$axios.post("/users", {
-        name,
-        email,
-        phoneNumber,
-        password
-      })
-    ).data;
+  async registerUser(context, userData) {
+    try {
+      const user = (await this.$axios.post("/users", userData)).data;
 
-    context.commit("setUserToken", user.token);
+      context.commit("setUserToken", user.token);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   }
 };

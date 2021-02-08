@@ -28,7 +28,7 @@
 
       <v-col>
         <v-radio-group row v-model="filters['action']">
-          <v-radio label="Покупка" value="Buy" />
+          <v-radio label="Покупка" value="Sell" />
           <v-radio label="Оренда" value="Rent" />
         </v-radio-group>
       </v-col>
@@ -56,6 +56,7 @@
       <v-col>
         <v-select
           v-model="filters['type']"
+          :items="estateTypes"
           label="Тип нерухомості"
           single-line
           clearable
@@ -67,7 +68,7 @@
 
 <script>
 import validator from "validator";
-
+import { placements, estateTypes } from "~/assets/globals.js";
 export default {
   data() {
     return {
@@ -75,26 +76,19 @@ export default {
       // radioGroup: "Buy",
       isValid: true,
       // select: [],
-      items: [
-        // "Шкірзавод" },
-        // "М’ясокомінат" },
-        // "Прогрес" },
-        // "Залізничний вокзал" },
-        // "Солодовий завод" },
-        // "Дитячий світ" },
-        // "Новосілки" },
-        // "Загребелля" },
-        // "Центр" }
-        "Шкірзавод",
-        "М’ясокомінат",
-        "Прогрес",
-        "Залізничний вокзал",
-        "Солодовий завод",
-        "Дитячий світ",
-        "Новосілки",
-        "Загребелля",
-        "Центр"
-      ],
+      // items: [
+      //   "Шкірзавод",
+      //   "М’ясокомінат",
+      //   "Прогрес",
+      //   "Залізничний вокзал",
+      //   "Солодовий завод",
+      //   "Дитячий світ",
+      //   "Новосілки",
+      //   "Загребелля",
+      //   "Центр"
+      // ],
+      items: placements,
+      estateTypes,
       rules: {
         currency: value =>
           (value ? validator.isCurrency(value + "") : true) ||

@@ -29,7 +29,9 @@
         ></v-progress-linear>
       </template>
     </v-text-field>
-    <v-btn :disabled="!isValid" color="success"> Зареєструватись </v-btn>
+    <v-btn :disabled="!isValid" color="success" @click="register()">
+      Зареєструватись
+    </v-btn>
   </v-form>
 </template>
 <script>
@@ -56,6 +58,17 @@ export default {
           value.length >= 6 || "Пароль повинен містити не менше 6 символів"
       }
     };
+  },
+  methods: {
+    register() {
+      console.log("this.phoneNumber :>> ", this.phoneNumber);
+      this.$store.dispatch("registerUser", {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        phoneNumber: this.phoneNumber
+      });
+    }
   },
   computed: {
     progress() {

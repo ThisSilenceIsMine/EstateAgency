@@ -29,16 +29,10 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-img max-height="50" max-width="50" src="nobg_logo.png"></v-img>
       <v-toolbar-title v-text="title" />
-      <v-btn
-        absolute
-        right
-        outlined
-        v-if="!this.$store.isAuthorized"
-        @click="showDialog()"
-      >
+      <v-btn absolute right outlined v-if="!isAuthorized" @click="showDialog()">
         <v-icon left>mdi-login</v-icon> Вхід
       </v-btn>
-      <v-btn color="primary" v-else>Профіль</v-btn>
+      <v-btn absolute right color="primary" v-else>Профіль</v-btn>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -83,10 +77,22 @@ export default {
       title: "Comfort UA"
     };
   },
+  computed: {
+    isAuthorized: function() {
+      return this.$store.getters.isAuthorized;
+    }
+  },
   methods: {
     showDialog: function() {
       console.log(this.$refs);
       this.$refs.authenticationDialog.showDialog();
+    }
+  },
+  watch: {
+    isAuthorized(newValue) {
+      if (newValue) {
+        this.$refs.authenticationDialog.closeDialog();
+      }
     }
   }
 };
