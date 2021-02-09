@@ -32,13 +32,14 @@ router
     .route("/api/estates")
     .post(
         auth,
-        upload.array("photos"),
+        upload.any(), //array("photos"),
         async (req, res) => {
             const estate = new Estate({
                 ...req.body,
                 owner: req.user._id,
             });
             try {
+                console.log("req :>> ", req);
                 req.files.forEach((file) => {
                     estate.images.push({ image: file.path });
                     console.log("path = ", file.path);
@@ -46,6 +47,7 @@ router
                 await estate.save();
                 res.send(estate);
             } catch (error) {
+                console.log("error :>> ", error);
                 res.status(500).send(error);
             }
         },

@@ -5,6 +5,9 @@ export const state = () => ({
 export const getters = {
   isAuthorized: state => {
     return state.userToken.length !== 0;
+  },
+  token: state => {
+    return state.userToken;
   }
 };
 

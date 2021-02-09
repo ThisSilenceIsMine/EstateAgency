@@ -79,6 +79,10 @@ export default {
   },
   computed: {
     isAuthorized: function() {
+      console.log(
+        "this.$store.getters.isAuthorized :>> ",
+        this.$store.getters.isAuthorized
+      );
       return this.$store.getters.isAuthorized;
     }
   },

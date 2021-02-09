@@ -22,12 +22,12 @@ const estateSchema = mongoose.Schema({
     },
     action: {
         type: String,
-        enum: ["Buy", "Rent"],
+        enum: ["Sell", "Rent"],
         required: true,
     },
     estateType: {
         type: String,
-        enum: ["Apartment", "House", "Plot", "Commercial"],
+        enum: ["Квартира", "Будинок", "Ділянка", "Комерційна"],
         required: true,
     },
     images: [
