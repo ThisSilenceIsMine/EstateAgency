@@ -114,12 +114,10 @@ export default {
   methods: {
     filesChanged(Files) {
       this.estateData.photos = Files;
-      console.log("phpotos changed :>> ", this.estateData.photos);
     },
     async upload() {
-      console.log("event.files :>> ", this.estateData.photos);
-
       const form = new FormData();
+      //refactor later
       form.append("title", this.estateData.title);
       form.append("action", this.estateData.action);
       form.append("placement", this.estateData.placement);

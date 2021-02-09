@@ -32,7 +32,9 @@
       <v-btn absolute right outlined v-if="!isAuthorized" @click="showDialog()">
         <v-icon left>mdi-login</v-icon> Вхід
       </v-btn>
-      <v-btn absolute right color="primary" v-else>Профіль</v-btn>
+      <v-btn nuxt absolute right color="primary" to="/profile" exact v-else>
+        Профіль
+      </v-btn>
     </v-app-bar>
     <v-main>
       <v-container>
