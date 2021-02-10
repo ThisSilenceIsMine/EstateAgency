@@ -16,7 +16,7 @@
       <v-col cols="12" sm="3" md="4" v-for="ad in filtered" :key="ad._id">
         <estate-card
           :title="ad.title"
-          source="img/interior-1.jpg"
+          :source="`${$axios.defaults.baseURL}${ad.images[0].image}`"
           :price="ad.price"
           :place="ad.placement"
           :action="ad.action"
@@ -30,10 +30,10 @@
 
 <script>
 import _ from "lodash";
-import EstateCard from "../components/estateCard.vue";
-import searchForm from "../components/searchForm.vue";
-import LoginForm from "../components/loginForm.vue";
-import RegisterForm from "../components/registerForm.vue";
+import EstateCard from "~/components/estateCard.vue";
+import searchForm from "~/components/searchForm.vue";
+import LoginForm from "~/components/loginForm.vue";
+import RegisterForm from "~/components/registerForm.vue";
 
 //!!! USED ONLY FOR GENERATING MOCK DATA, DELETE LATER
 const random = (min, max) => {
@@ -104,7 +104,6 @@ export default {
         return isViable;
       });
       console.log("filteredEstates :>> ", filteredEstates);
-      console.log("fts :>> ", fts);
       return filteredEstates;
     }
   },

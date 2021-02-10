@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 app.use(cors());
-app.use("/static", express.static(path.join(__dirname, "uploads")));
+app.use("/api/uploads", express.static(path.join(__dirname, "/../uploads")));
 
 app.use(express.json());
 app.use(userRouter);
