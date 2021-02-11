@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="3">
+      <v-col cols="12" sm="12" md="3">
         <v-card rounded="lg">
           <v-list color="transparent">
             <v-list-item
@@ -30,8 +30,9 @@
                     @click="logout()"
                     nuxt
                     to="/"
-                    >Вихід</v-btn
                   >
+                    Вихід
+                  </v-btn>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -61,11 +62,6 @@ export default {
         title: "Профіль",
         icon: "mdi-account-edit",
         child: "/profile/edit"
-      },
-      {
-        title: "Безпека",
-        icon: "mdi-shield-lock",
-        child: "/profile/security"
       }
     ]
   }),

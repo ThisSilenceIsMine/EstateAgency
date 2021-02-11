@@ -27,12 +27,24 @@
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-img max-height="50" max-width="50" src="nobg_logo.png"></v-img>
+      <v-img
+        max-height="50"
+        max-width="50"
+        :src="`${$axios.defaults.baseURL}uploads/logo.png`"
+      ></v-img>
       <v-toolbar-title v-text="title" />
       <v-btn absolute right outlined v-if="!isAuthorized" @click="showDialog()">
         <v-icon left>mdi-login</v-icon> Вхід
       </v-btn>
-      <v-btn nuxt absolute right color="primary" to="/profile" exact v-else>
+      <v-btn
+        nuxt
+        absolute
+        right
+        color="primary"
+        to="/profile/userEstates"
+        exact
+        v-else
+      >
         Профіль
       </v-btn>
     </v-app-bar>
@@ -49,12 +61,12 @@
 </template>
 
 <script>
-import authenticationModal from "../components/authenticationModal";
+// import authenticationModal from "../components/authenticationModal";
 
 export default {
-  components: {
-    authenticationModal
-  },
+  // components: {
+  //   authenticationModal
+  // },
   data() {
     return {
       clipped: false,

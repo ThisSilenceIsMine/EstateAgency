@@ -15,6 +15,10 @@
       :rules="[rules.required]"
     />
     <v-btn :disabled="!isValid" color="success" @click="login()"> Вхід </v-btn>
+
+    <error-snackbar class="mt-6" ref="errorSnackbar">
+      Помилка входу! Перевірте дані.
+    </error-snackbar>
   </v-form>
 </template>
 
@@ -38,11 +42,14 @@ export default {
     };
   },
   methods: {
-    login() {
-      this.$store.dispatch("loginUser", {
+    async login() {
+      const res = await this.$store.dispatch("loginUser", {
         email: this.email,
         password: this.password
       });
+      if (!res) {
+        this.$refs.errorSnackbar.show();
+      }
     }
   }
 };

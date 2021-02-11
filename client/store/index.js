@@ -29,8 +29,10 @@ export const actions = {
       const user = (await this.$axios.post("/users/login", userData)).data;
 
       context.commit("setUserToken", user.token);
+      return true;
     } catch (error) {
       console.log("error :>> ", error);
+      return false;
     }
   },
 
@@ -39,8 +41,10 @@ export const actions = {
       const user = (await this.$axios.post("/users", userData)).data;
 
       context.commit("setUserToken", user.token);
+      return true;
     } catch (error) {
       console.log("error :>> ", error);
+      return false;
     }
   },
 

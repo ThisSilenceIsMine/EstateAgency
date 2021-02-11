@@ -77,7 +77,7 @@
       <v-btn :disabled="!isValid" color="success" @click="upload()">
         Зберегти
       </v-btn>
-      <v-btn color="error" depressed>
+      <v-btn color="error" depressed nuxt to="/">
         Відмінити
       </v-btn>
     </v-row>

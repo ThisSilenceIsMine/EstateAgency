@@ -26,14 +26,14 @@
             </v-card>
           </v-tab-item>
         </v-tabs>
+        <error-snackbar></error-snackbar>
       </v-card>
     </v-dialog>
   </v-container>
 </template>
 <script>
-import LoginForm from "../components/loginForm.vue";
-import RegisterForm from "../components/registerForm.vue";
-
+import LoginForm from "~/components/loginForm.vue";
+import RegisterForm from "~/components/registerForm.vue";
 export default {
   components: {
     LoginForm,

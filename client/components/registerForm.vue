@@ -32,6 +32,9 @@
     <v-btn :disabled="!isValid" color="success" @click="register()">
       Зареєструватись
     </v-btn>
+    <error-snackbar class="mt-6" ref="errorSnackbar">
+      Виникла помилка при реєстрації, спробуйте пізніше.
+    </error-snackbar>
   </v-form>
 </template>
 <script>
@@ -60,14 +63,16 @@ export default {
     };
   },
   methods: {
-    register() {
-      console.log("this.phoneNumber :>> ", this.phoneNumber);
-      this.$store.dispatch("registerUser", {
+    async register() {
+      const res = await this.$store.dispatch("registerUser", {
         name: this.name,
         email: this.email,
         password: this.password,
         phoneNumber: this.phoneNumber
       });
+      if (!res) {
+        this.$refs.errorSnackbar.show();
+      }
     }
   },
   computed: {

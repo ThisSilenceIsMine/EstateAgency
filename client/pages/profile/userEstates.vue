@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <v-container>
     <v-row>
-      <v-col cols="12" sm="3" md="4" v-for="ad in estates" :key="ad._id">
+      <v-col cols="12" sm="3" md="6" v-for="ad in estates" :key="ad._id">
         <estate-card
           :title="ad.title"
-          source="img/interior-1.jpg"
+          :source="`${$axios.defaults.baseURL}${ad.images[0].image}`"
           :price="ad.price"
           :place="ad.placement"
           :action="ad.action"
@@ -13,7 +13,7 @@
         />
       </v-col>
     </v-row>
-  </div>
+  </v-container>
 </template>
 <script>
 import EstateCard from "~/components/estateCard.vue";
