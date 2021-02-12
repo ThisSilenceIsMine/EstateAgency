@@ -87,8 +87,10 @@
 import validator from "validator";
 import FormData from "form-data";
 import { placements, estateTypes } from "~/assets/globals.js";
+import { getters } from "~/store/index.js";
 
 export default {
+  middleware: "authLock",
   data() {
     return {
       estateTypes,
@@ -141,6 +143,15 @@ export default {
       }
     }
   }
+  // beforeRouteEnter(to, from, next) {
+  //   if (getters.isAuthorized) {
+  //     console.log("Go ahead, sell your grandma's house");
+  //     next();
+  //   } else {
+  //     console.log("Not authorized!");
+  //     next(false);
+  //   }
+  // }
 };
 </script>
 <style>

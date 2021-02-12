@@ -1,5 +1,6 @@
 export const state = () => ({
-  userToken: ""
+  userToken: "",
+  role: "User"
 });
 
 export const getters = {
@@ -20,6 +21,9 @@ export const mutations = {
   },
   clearUserToken(state) {
     state.userToken = "";
+  },
+  setRole(state, role) {
+    state.role = role;
   }
 };
 
@@ -29,6 +33,7 @@ export const actions = {
       const user = (await this.$axios.post("/users/login", userData)).data;
 
       context.commit("setUserToken", user.token);
+      context.commit("setRole", user.rights);
       return true;
     } catch (error) {
       console.log("error :>> ", error);

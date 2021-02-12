@@ -51,6 +51,7 @@
 
 <script>
 export default {
+  middleware: "authLock",
   data: () => ({
     links: [
       {

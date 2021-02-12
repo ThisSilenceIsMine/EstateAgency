@@ -12,6 +12,7 @@
     "@nuxtjs/axios": "^5.12.5",
     "core-js": "^3.8.3",
     "form-data": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
     "nuxt": "^2.14.12",
     "validator": "^13.5.2",
