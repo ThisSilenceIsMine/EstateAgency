@@ -86,7 +86,7 @@ router
         const isValid = updates.every((update) =>
             allowedUpates.includes(update)
         );
-
+        console.log("req.body :>> ", req.body);
         if (!isValid) {
             return res.status(400).send({ error: "Invalid updates" });
         }

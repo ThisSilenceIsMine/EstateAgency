@@ -55,9 +55,17 @@ export default {
   methods: {
     async update() {
       try {
-        await this.$axios.patch("/users/me", user, {
-          headers: store.getters.authHeader
-        });
+        await this.$axios.patch(
+          "/users/me",
+          {
+            name: this.user.name,
+            email: this.user.email,
+            phoneNumber: this.user.phoneNumber
+          },
+          {
+            headers: this.$store.getters.authHeader
+          }
+        );
       } catch (error) {
         this.$refs.errorSnackbar.show();
         console.log("error :>> ", error);
