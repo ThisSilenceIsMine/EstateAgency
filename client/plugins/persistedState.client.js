@@ -2,7 +2,7 @@ import createPersistedState from "vuex-persistedstate";
 
 export default ({ store }) => {
   createPersistedState({
-    key: "userToken",
-    paths: ["userToken"]
+    key: "userData",
+    paths: ["userToken", "role"]
   })(store);
 };

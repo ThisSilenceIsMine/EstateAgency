@@ -7,6 +7,9 @@ export const getters = {
   isAuthorized: state => {
     return state.userToken.length !== 0;
   },
+  isAdmin: state => {
+    return state.role === "Admin";
+  },
   authHeader: state => {
     return { Authorization: `Bearer ${state.userToken}` };
   },
@@ -30,10 +33,10 @@ export const mutations = {
 export const actions = {
   async loginUser(context, userData) {
     try {
-      const user = (await this.$axios.post("/users/login", userData)).data;
-
-      context.commit("setUserToken", user.token);
-      context.commit("setRole", user.rights);
+      const res = (await this.$axios.post("/users/login", userData)).data;
+      console.log("user(action)", res.user);
+      context.commit("setUserToken", res.token);
+      context.commit("setRole", res.user.rights);
       return true;
     } catch (error) {
       console.log("error :>> ", error);
@@ -43,9 +46,9 @@ export const actions = {
 
   async registerUser(context, userData) {
     try {
-      const user = (await this.$axios.post("/users", userData)).data;
+      const res = (await this.$axios.post("/users", userData)).data;
 
-      context.commit("setUserToken", user.token);
+      context.commit("setUserToken", res.token);
       return true;
     } catch (error) {
       console.log("error :>> ", error);

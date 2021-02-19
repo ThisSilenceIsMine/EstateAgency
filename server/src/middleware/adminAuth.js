@@ -8,13 +8,16 @@ const auth = async (req, res, next) => {
 
         const user = await getUserByToken(token, payload);
 
+        if (user.rights != "Admin") {
+            return res.status(403).send({ error: "Not allowed" });
+        }
+
         req.token = token;
         req.user = user;
 
         next();
     } catch (error) {
-        console.log("error", error);
-        res.status(401).send({ error: "Please authenticate" });
+        res.status(403).send({ error: "Not allowed" });
     }
 };
 

@@ -75,8 +75,13 @@ export default {
   computed: {
     isOwner() {
       if (this.$store.getters.isAuthorized) {
-        return jwt.decode(this.$store.getters.token)._id === this.estate.owner;
-      } else return false;
+        return (
+          jwt.decode(this.$store.getters.token)._id === this.estate.owner ||
+          this.$store.getters.isAdmin
+        );
+      } else {
+        return false;
+      }
     },
     actionDisplay() {
       if (this.estate.action === "Buy") {

@@ -35,21 +35,6 @@ import searchForm from "~/components/searchForm.vue";
 import LoginForm from "~/components/loginForm.vue";
 import RegisterForm from "~/components/registerForm.vue";
 
-//!!! USED ONLY FOR GENERATING MOCK DATA, DELETE LATER
-const random = (min, max) => {
-  const length = Math.random() * (max - min) + min;
-
-  let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  let str = "";
-  for (let i = 0; i < length; i++) {
-    str += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-
-  return str;
-};
-//^^^ USED ONLY FOR GENERATING MOCK DATA, DELETE LATER
-
 export default {
   components: {
     searchForm,
@@ -68,15 +53,6 @@ export default {
     }
   },
   computed: {
-    //!!! USED ONLY FOR GENERATING MOCK DATA, DELETE LATER
-    randTitles() {
-      const sets = [];
-      for (let i = 0; i < 70; i++) {
-        sets.push(random(20, 89));
-      }
-      return sets;
-    },
-    //^^^ USED ONLY FOR GENERATING MOCK DATA, DELETE LATER
     filtered() {
       const fts = this.filters;
 
@@ -87,7 +63,7 @@ export default {
           isViable &= estate.title.includes(fts.title); //ok
         }
         if (fts.place !== undefined && fts.place.length !== 0) {
-          isViable &= fts.place.includes(estate.placement); //???? FIX IT
+          isViable &= fts.place.includes(estate.placement);
           console.log("estate.placement :>> ", estate.placement);
           console.log("fts.place :>> ", fts.place);
         }
@@ -111,7 +87,6 @@ export default {
   async asyncData({ $axios }) {
     try {
       const estates = (await $axios.get("/estates")).data;
-      console.log("estates :>> ", estates);
       return { estates };
     } catch (error) {
       console.log("error :>> ", error);

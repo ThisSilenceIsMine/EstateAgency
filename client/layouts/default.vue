@@ -33,6 +33,17 @@
         :src="`${$axios.defaults.baseURL}uploads/logo.png`"
       ></v-img>
       <v-toolbar-title v-text="title" />
+      <v-btn
+        v-if="isAdmin"
+        class="ml-5"
+        color="success"
+        nuxt
+        to="/admin"
+        exact
+        outlined
+      >
+        Адмін
+      </v-btn>
       <v-btn absolute right outlined v-if="!isAuthorized" @click="showDialog()">
         <v-icon left>mdi-login</v-icon> Вхід
       </v-btn>
@@ -98,6 +109,13 @@ export default {
         this.$store.getters.isAuthorized
       );
       return this.$store.getters.isAuthorized;
+    },
+    isAdmin: function() {
+      console.log(
+        "this.$store.getters.isAdmin :>> ",
+        this.$store.getters.isAdmin
+      );
+      return this.$store.getters.isAdmin;
     }
   },
   methods: {

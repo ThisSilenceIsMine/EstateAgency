@@ -2,22 +2,33 @@ const express = require("express");
 require("../db/mongoose.js");
 const User = require("../db/models/userModel");
 const auth = require("../middleware/auth");
-
+const adminAuth = require("../middleware/adminAuth");
 const router = express.Router();
 const baseRoute = "/api/users";
 
-router.post(`${baseRoute}`, async (req, res) => {
-    const user = new User(req.body);
-    console.log("req.body :>> ", req.body);
-    try {
-        await user.save();
-        const token = await user.generateAuthToken();
-        res.status(201).send({ user, token });
-    } catch (error) {
-        // console.log("error :>> ", error);
-        res.status(400).send(error);
-    }
-});
+router
+    .route(`${baseRoute}`)
+    .post(async (req, res) => {
+        const user = new User(req.body);
+        console.log("req.body :>> ", req.body);
+        try {
+            await user.save();
+            const token = await user.generateAuthToken();
+            res.status(201).send({ user, token });
+        } catch (error) {
+            // console.log("error :>> ", error);
+            res.status(400).send(error);
+        }
+    })
+    .get(adminAuth, async (req, res) => {
+        try {
+            const users = await User.find({});
+            res.status(200).send(users);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(error);
+        }
+    });
 // router.get(`${baseRoute}/:id/contacts`, async (req, res) => {
 //     try {
 //         const user = await User.findById(req.params.id);

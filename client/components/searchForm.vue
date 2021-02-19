@@ -73,20 +73,9 @@ export default {
   data() {
     return {
       filters: {},
-      // radioGroup: "Buy",
+
       isValid: true,
-      // select: [],
-      // items: [
-      //   "Шкірзавод",
-      //   "М’ясокомінат",
-      //   "Прогрес",
-      //   "Залізничний вокзал",
-      //   "Солодовий завод",
-      //   "Дитячий світ",
-      //   "Новосілки",
-      //   "Загребелля",
-      //   "Центр"
-      // ],
+
       items: placements,
       estateTypes,
       rules: {
