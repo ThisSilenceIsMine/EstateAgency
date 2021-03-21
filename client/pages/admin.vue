@@ -10,7 +10,14 @@
             ></v-list-item-subtitle>
             <v-list-item-subtitle v-html="user.email"></v-list-item-subtitle>
           </v-list-item-content>
-          <v-btn color="error" outlined depressed absolute right>
+          <v-btn
+            color="error"
+            outlined
+            depressed
+            absolute
+            right
+            @click="deleteUser(user._id)"
+          >
             Видалити
           </v-btn>
         </v-list-item>
@@ -21,6 +28,14 @@
 <script>
 export default {
   middleware: "authLock",
+  methods: {
+    async deleteUser(id) {
+      await this.$axios.delete(`/users/${id}`, {
+        headers: this.$store.getters.authHeader
+      });
+      users = users.filter(x => x._id != id);
+    }
+  },
   async asyncData({ $axios, store, redirect }) {
     try {
       const users = (

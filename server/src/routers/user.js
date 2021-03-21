@@ -29,6 +29,19 @@ router
             res.status(500).send(error);
         }
     });
+
+router.route(`${baseRoute}/:id`).delete(adminAuth, async (req, res) => {
+    console.log(`Deleting user ${req.params}`);
+    try {
+        const user = await User.findOneAndDelete({
+            _id: req.params.id,
+        });
+        res.send(user);
+    } catch (error) {
+        console.log(`error`, error);
+        res.status(500).send(error);
+    }
+});
 // router.get(`${baseRoute}/:id/contacts`, async (req, res) => {
 //     try {
 //         const user = await User.findById(req.params.id);

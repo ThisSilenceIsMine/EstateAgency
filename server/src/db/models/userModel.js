@@ -105,7 +105,7 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-userSchema.pre("deleteOne", async function (next) {
+userSchema.pre("findOneAndDelete", async function (next) {
     // !!!use getQuery() to get document's id!!!!
     await Estate.deleteMany({ owner: this.getQuery()._id });
 });

@@ -8,7 +8,8 @@ export const getters = {
     return state.userToken.length !== 0;
   },
   isAdmin: state => {
-    return state.role === "Admin";
+    console.log(`state`, state);
+    return state.role === "Admin" && state.userToken.length !== 0;
   },
   authHeader: state => {
     return { Authorization: `Bearer ${state.userToken}` };
@@ -24,6 +25,7 @@ export const mutations = {
   },
   clearUserToken(state) {
     state.userToken = "";
+    state.role = "User";
   },
   setRole(state, role) {
     state.role = role;
