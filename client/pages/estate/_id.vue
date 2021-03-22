@@ -84,14 +84,14 @@ export default {
       }
     },
     actionDisplay() {
-      if (this.estate.action === "Buy") {
+      if (this.estate.action === "Sell") {
         return "Покупка";
       } else {
         return "Оренда";
       }
     },
     actionIcon() {
-      if (this.estate.action === "Buy") {
+      if (this.estate.action === "Sell") {
         return "mdi-cash-usd-outline";
       } else {
         return "mdi-calendar-clock";
