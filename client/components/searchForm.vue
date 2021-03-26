@@ -2,10 +2,11 @@
   <v-form v-model="isValid">
     <v-row>
       <v-col>
-        <v-text-field
-          v-model="filters['title']"
-          label="Назва"
-          prepend-inner-icon="mdi-format-title"
+        <v-select
+          v-model="filters['type']"
+          :items="estateTypes"
+          label="Тип нерухомості"
+          single-line
           clearable
         />
       </v-col>
@@ -54,11 +55,10 @@
         />
       </v-col>
       <v-col>
-        <v-select
-          v-model="filters['type']"
-          :items="estateTypes"
-          label="Тип нерухомості"
-          single-line
+        <v-text-field
+          v-model="filters['title']"
+          label="Назва"
+          prepend-inner-icon="mdi-format-title"
           clearable
         />
       </v-col>

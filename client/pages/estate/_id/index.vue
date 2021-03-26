@@ -43,7 +43,7 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-divider class="my-2"></v-divider>
+            <v-divider class="my-2" v-if="isOwner"></v-divider>
 
             <v-list-item color="grey lighten-4" v-if="isOwner">
               <v-list-item-content>

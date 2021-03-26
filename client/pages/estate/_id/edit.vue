@@ -1,30 +1,26 @@
 <template>
   <v-form v-model="isValid">
-    <h1 class="text-center">{{ title }}</h1>
+    <h1 class="text-center">Редагувати</h1>
     <br />
     <v-row>
       <v-col>
         <v-text-field
           :rules="[rules.required]"
-          v-model="estateData.title"
+          v-model="estate.title"
           label="Заголовок"
         />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-radio-group
-          :rules="[rules.required]"
-          row
-          v-model="estateData.action"
-        >
+        <v-radio-group :rules="[rules.required]" row v-model="estate.action">
           <v-radio label="Продаж" value="Sell" />
           <v-radio label="Оренда" value="Rent" />
         </v-radio-group>
       </v-col>
       <v-col>
         <v-combobox
-          v-model="estateData.placement"
+          v-model="estate.placement"
           :items="placements"
           :rules="[rules.required]"
           label="Район"
@@ -35,7 +31,7 @@
       </v-col>
       <v-col>
         <v-select
-          v-model="estateData.type"
+          v-model="estate.estateType"
           :rules="[rules.required]"
           :items="estateTypes"
           label="Тип нерухомості"
@@ -47,8 +43,10 @@
     <v-row>
       <v-col>
         <v-file-input
+          ref="imageInput"
           @change="filesChanged"
           :rules="[rules.required]"
+          :value="estate.images"
           accept="image/*"
           label="Фото"
           prepend-icon="mdi-camera"
@@ -59,7 +57,7 @@
       </v-col>
       <v-col>
         <v-text-field
-          v-model="estateData.price"
+          v-model="estate.price"
           :rules="[rules.required, rules.currency]"
           label="Ціна"
           prefix="$"
@@ -71,7 +69,7 @@
       <v-textarea
         :rules="[rules.required]"
         label="Опис"
-        v-model="estateData.description"
+        v-model="estate.description"
         auto-grow
       />
     </v-row>
@@ -85,6 +83,7 @@
     </v-row>
   </v-form>
 </template>
+
 <script>
 import validator from "validator";
 import FormData from "form-data";
@@ -97,17 +96,9 @@ export default {
     return {
       estateTypes,
       placements,
-      title: "Додати оголошення",
+      title: "Редагувати",
       isValid: true,
-      estateData: {
-        title: "",
-        price: 0,
-        action: "",
-        placement: "",
-        type: "",
-        photos: [],
-        description: ""
-      },
+
       rules: {
         required: value => !!value || "Обов'язкове поле",
         currency: value =>
@@ -118,18 +109,18 @@ export default {
   },
   methods: {
     filesChanged(Files) {
-      this.estateData.photos = Files;
+      this.estate.photos = Files;
     },
     async upload() {
       const form = new FormData();
       //refactor later
-      form.append("title", this.estateData.title);
-      form.append("action", this.estateData.action);
-      form.append("placement", this.estateData.placement);
-      form.append("estateType", this.estateData.type);
-      form.append("price", this.estateData.price);
-      form.append("description", this.estateData.description);
-      this.estateData.photos.forEach(ph => form.append("photos", ph));
+      form.append("title", this.estate.title);
+      form.append("action", this.estate.action);
+      form.append("placement", this.estate.placement);
+      form.append("estateType", this.estate.type);
+      form.append("price", this.estate.price);
+      form.append("description", this.estate.description);
+      this.estate.photos.forEach(ph => form.append("photos", ph));
 
       const token = this.$store.getters.token;
       const config = {
@@ -139,21 +130,24 @@ export default {
         }
       };
 
-      try {
-        const data = (await this.$axios.post("/estates", form, config)).data;
-      } catch (error) {
-        console.log("Upload error :>> ", error);
-      }
+      //   try {
+      //     const data = (await this.$axios.post("/estates", form, config)).data;
+      //   } catch (error) {
+      //     console.log("Upload error :>> ", error);
+      //   }
+    }
+  },
+  async asyncData({ error, params, $axios }) {
+    try {
+      console.log("_id/edit async data invoked");
+      console.log(`estates/${params.id}/edit`);
+      const estate = (await $axios.get(`estates/${params.id}`)).data;
+
+      return { estate };
+    } catch (err) {
+      console.log("err :>> ", err);
+      error({ statusCode: 404, message: "Сторінку не знайдено" });
     }
   }
-  // beforeRouteEnter(to, from, next) {
-  //   if (getters.isAuthorized) {
-  //     console.log("Go ahead, sell your grandma's house");
-  //     next();
-  //   } else {
-  //     console.log("Not authorized!");
-  //     next(false);
-  //   }
-  // }
 };
 </script>
