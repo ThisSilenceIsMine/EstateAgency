@@ -67,6 +67,8 @@
 
     <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
+      &nbsp;
+      <a href="" @click="openDocs">Довідка</a>
     </v-footer>
   </v-app>
 </template>
@@ -122,6 +124,10 @@ export default {
     showDialog: function() {
       console.log(this.$refs);
       this.$refs.authenticationDialog.showDialog();
+    },
+    openDocs() {
+      var win = window.open("/dovidka.html", "_blank");
+      win.focus();
     }
   },
   watch: {

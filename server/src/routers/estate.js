@@ -108,20 +108,25 @@ router
             res.status(500).send(error);
         }
     })
-    .patch(auth, async (req, res) => {
+    .patch(auth, upload.any(), async (req, res) => {
         const allowedUpates = [
             "title",
             "description",
             "price",
+            "action",
             "placement",
             "estateType",
+            "images",
+            "photos",
         ];
         const updates = Object.keys(req.body);
+        // console.log(`updates`, req.body);
         const isValid = updates.every((update) =>
             allowedUpates.includes(update)
         );
 
         if (!isValid) {
+            console.log("Updates not valid!");
             return res.status(400).send({ error: "Invalid updates" });
         }
 
@@ -135,10 +140,12 @@ router
 
             res.send(estate);
         } catch (error) {
+            console.log(`error`, error);
             res.status(500).send(error);
         }
     })
     .delete(auth, async (req, res) => {
+        console.log(`req`, req.params);
         try {
             const estate = await Estate.findOneAndDelete({
                 _id: req.params.id,

@@ -46,7 +46,7 @@ const estateSchema = mongoose.Schema({
 });
 
 estateSchema.path("price").get(function (num) {
-    return (num / 100).toFixed(2);
+    return (num.toFixed(2) / 100).toFixed(2);
 });
 
 estateSchema.path("price").set(function (num) {

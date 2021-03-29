@@ -48,10 +48,25 @@
             <v-list-item color="grey lighten-4" v-if="isOwner">
               <v-list-item-content>
                 <v-list-item-title>
-                  <v-btn color="primary" block depressed text>
+                  <v-btn
+                    color="primary"
+                    block
+                    depressed
+                    text
+                    nuxt
+                    :to="editPage"
+                  >
                     Редагувати
                   </v-btn>
-                  <v-btn color="error" block depressed text>
+                  <v-btn
+                    color="error"
+                    @click="deleteEstate"
+                    depressed
+                    block
+                    text
+                    nuxt
+                    to="/"
+                  >
                     Видалити
                   </v-btn>
                 </v-list-item-title>
@@ -72,6 +87,27 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    async deleteEstate() {
+      const token = this.$store.getters.token;
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      try {
+        const data = (
+          await this.$axios.delete(`/estates/${this.$route.params.id}`, config)
+        ).data;
+
+        console.log(`Upload res:`, data);
+      } catch (error) {
+        console.log("Upload error :>> ", error);
+      }
+    }
+  },
   computed: {
     isOwner() {
       if (this.$store.getters.isAuthorized) {
@@ -82,6 +118,9 @@ export default {
       } else {
         return false;
       }
+    },
+    editPage() {
+      return `${this.$route.params.id}/edit`;
     },
     actionDisplay() {
       if (this.estate.action === "Sell") {

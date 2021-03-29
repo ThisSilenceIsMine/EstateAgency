@@ -74,13 +74,15 @@
       />
     </v-row>
     <v-row>
-      <v-btn :disabled="!isValid" color="success" @click="upload()">
+      <v-btn :disabled="!isValid" color="success" @click="upload()" nuxt to="/">
         Зберегти
       </v-btn>
       <v-btn color="error" depressed nuxt to="/">
         Відмінити
       </v-btn>
     </v-row>
+    <br /><br />
+    <image-list :v-if="preview" @remove="removeImage" :images="estate.images" />
   </v-form>
 </template>
 
@@ -98,6 +100,7 @@ export default {
       placements,
       title: "Редагувати",
       isValid: true,
+      preview: true,
 
       rules: {
         required: value => !!value || "Обов'язкове поле",
@@ -108,8 +111,14 @@ export default {
     };
   },
   methods: {
+    removeImage(id) {
+      // console.log(`id`, id);
+      // console.log(`this.estate.images`, this.estate.images);
+      this.estate.images = this.estate.images.filter(x => x._id !== id);
+    },
     filesChanged(Files) {
-      this.estate.photos = Files;
+      this.estate.images = Files;
+      this.preview = false;
     },
     async upload() {
       const form = new FormData();
@@ -117,12 +126,14 @@ export default {
       form.append("title", this.estate.title);
       form.append("action", this.estate.action);
       form.append("placement", this.estate.placement);
-      form.append("estateType", this.estate.type);
+      form.append("estateType", this.estate.estateType);
       form.append("price", this.estate.price);
       form.append("description", this.estate.description);
-      this.estate.photos.forEach(ph => form.append("photos", ph));
+      this.estate.images.forEach(ph => form.append("photos", ph));
 
       const token = this.$store.getters.token;
+      console.log(`this.estate`, this.estate);
+      console.log(`form`, form);
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -130,11 +141,19 @@ export default {
         }
       };
 
-      //   try {
-      //     const data = (await this.$axios.post("/estates", form, config)).data;
-      //   } catch (error) {
-      //     console.log("Upload error :>> ", error);
-      //   }
+      try {
+        const data = (
+          await this.$axios.patch(
+            `/estates/${this.$route.params.id}`,
+            form,
+            config
+          )
+        ).data;
+
+        console.log(`Upload res:`, data);
+      } catch (error) {
+        console.log("Upload error :>> ", error);
+      }
     }
   },
   async asyncData({ error, params, $axios }) {
