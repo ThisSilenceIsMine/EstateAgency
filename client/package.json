@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
+    "deploy": "cd ./api && npm install && cd .. && nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
