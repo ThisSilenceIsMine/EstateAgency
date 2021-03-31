@@ -42,12 +42,12 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "http://localhost:9000/api/"
+    baseURL: "http://localhost:3000/api/"
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ["~/assets/variables.scss"],
+    // customVariables: ["~/assets/variables.scss"],
     theme: {
       dark: true,
       themes: {
@@ -65,5 +65,8 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {},
+  serverMiddleware: {
+    "/": "~/api/src/app.js"
+  }
 };
